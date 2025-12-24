@@ -26,6 +26,13 @@
                     <BaseSvg name="gl-icon-help" :size="24" />
                 </a>
             </ATooltip>
+            <!-- Dark Mode Toggle -->
+            <ATooltip>
+                <template #title>{{ appStore.state.themeMode === ThemeMode.DARK ? 'Light Mode' : 'Dark Mode' }}</template>
+                <a href="javascript:;" class="icon-area" @click="toggleTheme">
+                    <BaseSvg :name="appStore.state.themeMode === ThemeMode.DARK ? 'gl-icon-sun' : 'gl-icon-moon'" :size="24" />
+                </a>
+            </ATooltip>
             <!-- 竖线 -->
             <div class="vertical-line" />
 
@@ -39,14 +46,23 @@
 
 <script setup lang="ts">
 import { useUserStore } from '@/stores/modules/user'
+import { useAppStore } from '@/stores/modules/app'
+import { ThemeMode } from 'gl-web-main'
 
 const userStore = useUserStore()
+const appStore = useAppStore()
 
 // github链接
 const githubLink = 'https://github.com/gl-inet/glkvm-cloud'
 
 // 问题指引链接
 const helpLink = 'https://www.gl-inet.com'
+
+// Toggle between dark and light mode
+const toggleTheme = () => {
+    const newTheme = appStore.state.themeMode === ThemeMode.DARK ? ThemeMode.LIGHT : ThemeMode.DARK
+    appStore.setThemeMode(newTheme)
+}
 </script>
 
 <style scoped lang="scss">
