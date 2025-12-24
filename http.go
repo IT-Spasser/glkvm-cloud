@@ -688,39 +688,22 @@ func Write302WithCookie(conn net.Conn, location, cookieName, cookieValue string)
     _, _ = conn.Write([]byte(response))
 }
 
-// buildRedirectHost removes the first label of the hostname and prepends devid.
+// buildRedirectHost prepends the device ID to the hostname.
 // Rules:
-// - "www.example.com"         -> "devid.example.com"
-// - "www.l1.example.com"      -> "devid.l1.example.com"
-// - "www.l1.l2.example.com"   -> "devid.l1.l2.example.com"
-// - Two-level domain "example.com" -> "devid.example.com"
-// - Single label / abnormal cases   -> "devid." + hostname (fallback)
+// - "kvm.intserver.com"       -> "devid.kvm.intserver.com"
+// - "example.com"             -> "devid.example.com"
+// - "www.example.com"         -> "devid.www.example.com"
+// - Single label / abnormal cases -> "devid." + hostname (fallback)
 //
 // The input hostname must be a pure hostname without port.
 func buildRedirectHost(hostname, devid string) string {
     // Allow FQDN with trailing dot like "example.com."
     hostname = strings.TrimSuffix(hostname, ".")
 
-    // Split into labels
-    labels := strings.Split(hostname, ".")
-    // Remove empty labels (in case of consecutive dots)
-    compact := make([]string, 0, len(labels))
-    for _, l := range labels {
-        if l != "" {
-            compact = append(compact, l)
-        }
-    }
-    labels = compact
-
-    switch len(labels) {
-    case 0:
+    // Simply prepend devid to the hostname
+    if hostname == "" {
         return devid // extreme case: just return devid
-    case 1:
-        // Single label (e.g., "localhost") — keep original as suffix
-        return devid + "." + labels[0]
-    default:
-        // >=2: drop the leftmost label
-        suffix := strings.Join(labels[1:], ".")
-        return devid + "." + suffix
     }
+    
+    return devid + "." + hostname
 }
