@@ -12,9 +12,15 @@ import 'gl-web-main/style.css'
 import '@/styles/index.scss'
 import App from './App.vue'
 import projectInitialize from './projectInitialize'
+import Unicon from 'vue-unicons'
+import { uniMoon, uniSun } from 'vue-unicons/dist/icons'
+
+Unicon.add([uniMoon, uniSun])
 
 const app = createApp(App)
 
 projectInitialize(app)
+
+app.use(Unicon)
 
 app.mount('#app')

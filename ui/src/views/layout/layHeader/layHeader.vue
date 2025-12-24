@@ -16,28 +16,33 @@
             <ATooltip>
                 <template #title>{{ githubLink }}</template>
                 <a :href="githubLink" target="_blank" rel="noopener noreferrer" class="icon-area">
-                    <BaseSvg name="gl-icon-github" :size="24" />
+                    <BaseSvg name="gl-icon-github" :size="24" color="var(--gl-color-text-level3)" />
                 </a>
             </ATooltip>
             <!-- 问题指引 -->
             <ATooltip>
                 <template #title>{{ helpLink }}</template>
                 <a :href="helpLink" target="_blank" rel="noopener noreferrer" class="icon-area">
-                    <BaseSvg name="gl-icon-help" :size="24" />
+                    <BaseSvg name="gl-icon-help" :size="24" color="var(--gl-color-text-level3)" />
                 </a>
             </ATooltip>
             <!-- Dark Mode Toggle -->
             <ATooltip>
                 <template #title>{{ appStore.state.themeMode === ThemeMode.DARK ? 'Light Mode' : 'Dark Mode' }}</template>
-                <a href="javascript:;" class="icon-area" @click="toggleTheme">
-                    <BaseSvg :name="appStore.state.themeMode === ThemeMode.DARK ? 'gl-icon-sun' : 'gl-icon-moon'" :size="24" />
+                <a href="javascript:;" class="icon-area theme-toggle" @click="toggleTheme">
+                    <unicon 
+                        :name="appStore.state.themeMode === ThemeMode.DARK ? 'sun' : 'moon'" 
+                        :fill="'var(--gl-color-text-level3)'"
+                        :width="24"
+                        :height="24"
+                    />
                 </a>
             </ATooltip>
             <!-- 竖线 -->
             <div class="vertical-line" />
 
             <a href="javascript:;" class="log-out" @click="userStore.manualLogout">
-                <BaseSvg name="gl-icon-logout" style="margin-right: 12px;" :size="24"></BaseSvg>
+                <BaseSvg name="gl-icon-logout" style="margin-right: 12px;" :size="24" color="var(--gl-color-text-level3)"></BaseSvg>
                 {{ $t('login.signOut') }}
             </a>
         </div>
